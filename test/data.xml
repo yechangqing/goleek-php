@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<dataset>
+    <account id="1" code="100003109" company="新纪元期货" money="150000" type="期货" used="y"/>
+    <account id="2" code="390430" company="长江期货" money="61000" type="期货" used="n"/>
+    <account id="3" code="27107470" company="长江证券" money="43000" type="股票" used="y"/>
+    
+    <futures id="1" code="rb1601" name="螺纹钢" margin="0.09" unit="10" min="1" exchange="上海期货" interest="n"/>
+    <futures id="2" code="y1605" name="豆油" margin="0.1" unit="10" min="2" exchange="大连商品" interest="y"/>
+    <futures id="3" code="ta1610" name="甲酸" margin="0.12" unit="5" min="2" exchange="郑州商品" interest="y"/>
+    
+    <stock id="1" code="600399" name="广晟有色" exchange="上海证券" interest="y"/>
+    <stock id="2" code="000123" name="深圳光电" exchange="深圳证券" interest="n"/>
+    
+    <setting id="1" open_percent="0.25" loss_percent="0.02"/>
+</dataset>
