@@ -13,4 +13,24 @@
     <stock id="2" code="000123" name="深圳光电" exchange="深圳证券" interest="n"/>
     
     <setting id="1" open_percent="0.25" loss_percent="0.02"/>
+    
+    <detail_futures id="1" contract="rb1601" name="螺纹钢" status="持" direct="多" open_price="3000" open_date="2015-9-1" margin="0.1" unit="10" account="100003109" />
+    <detail_futures id="2" contract="rb1601" name="螺纹钢" status="持" direct="多" open_price="3100" open_date="2015-9-1" margin="0.1" unit="10" account="100003109" />
+    <detail_futures id="3" contract="rb1601" name="螺纹钢" status="平" direct="多" open_price="3150" open_date="2015-9-1" margin="0.1" unit="10" account="100003109" />
+    <detail_futures id="4" contract="rb1601" name="螺纹钢" status="持" direct="空" open_price="2980" open_date="2015-8-13" margin="0.1" unit="10" account="100003109" />
+    <detail_futures id="5" contract="rb1601" name="螺纹钢" status="平" direct="多" open_price="3300" open_date="2015-9-1" margin="0.1" unit="10" account="390430" />
+    <detail_futures id="6" contract="y1607" name="豆油" status="持" direct="多" open_price="5000" open_date="2015-9-2" margin="0.09" unit="10" account="390430" />
+    
+    <position_futures id="1" quit_price="2910" action="卖出平仓 &gt;="/>
+    <position_futures id="2" quit_price="3005" action="买入平仓 &lt;="/>
+    <position_futures id="3" quit_price="5100" action="卖出平仓 &gt;="/>
+    <position_futures id="4" quit_price="3420" action="卖出平仓 &gt;="/>
+    <position_futures id="5" quit_price="6000" action="卖出平仓 &gt;="/>
+    
+    <position_detail_futures id="1" position_futures_id="1" detail_futures_id="1"/>
+    <position_detail_futures id="2" position_futures_id="1" detail_futures_id="2"/>
+    <position_detail_futures id="3" position_futures_id="1" detail_futures_id="3"/>
+    <position_detail_futures id="4" position_futures_id="2" detail_futures_id="4"/>
+    <position_detail_futures id="5" position_futures_id="3" detail_futures_id="6"/>
+    <position_detail_futures id="6" position_futures_id="4" detail_futures_id="5"/>
 </dataset>
