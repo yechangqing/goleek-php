@@ -3,13 +3,13 @@
 /**
  * 定义全局变量和属性
  */
-DEFINE('HOST', 'localhost:3303');
+DEFINE('HOST', 'localhost:3306');
 DEFINE('USER', 'yecq');
 DEFINE('PASSWD', '801111');
 DEFINE('DB', 'goleek_test');
 
 function get_json_result($arr) {
-    if ($arr == null || !is_array($arr)) {
+    if ($arr === null || !is_array($arr)) {
         return '{"status":"ok","message":"ok"}';
     }
 
@@ -20,7 +20,7 @@ function get_json_result($arr) {
 
     $ret = array();
     $ret[0] = $sret;
-    if ($data != null && (!is_array($data) || count($data) > 0)) {
+    if ($data !== null && (!is_array($data) || count($data) > 0)) {
         $ret[1] = $data;
     }
 
@@ -30,7 +30,7 @@ function get_json_result($arr) {
 // 检查有没有需要的参数
 function request_params_exist($param_names) {
     foreach ($param_names as $name) {
-        if (!array_key_exists($name, $_POST) || $_POST[$name] == null) {
+        if (!array_key_exists($name, $_POST) || $_POST[$name] === null) {
             return false;
         }
     }
@@ -39,7 +39,7 @@ function request_params_exist($param_names) {
 
 // 从数组中返回值，不存在则返回null
 function get_value($array, $key) {
-    if ($key == null || $array == null) {
+    if ($key === null || $array === null) {
         return null;
     }
 
