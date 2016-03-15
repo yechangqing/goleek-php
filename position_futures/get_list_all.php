@@ -8,7 +8,7 @@ echo get_json_result(do_get_list_all());
 
 function do_get_list_all() {
     $conn = mysqli_connect(HOST, USER, PASSWD, DB) or die("无法连接到数据库");
-    $result = mysqli_query($conn, "select * from v_position_futures");
+    $result = mysqli_query($conn, "select * from v_position_futures order by id");
     if (!$result) {
         $msg = mysqli_error($conn);
         mysqli_close($conn);
@@ -16,8 +16,18 @@ function do_get_list_all() {
     }
     $objects = array();
     foreach ($result as $row) {
-        $objects[] = $row;
+        $tmp = array();
+        $tmp["id"] = $row["id"];
+        $tmp["contract"] = $row["contract"];
+        $tmp["direct"] = $row["direct"];
+        $tmp["lot"] = $row["lot"];
+        $tmp["open_price"] = $row["open_price"];
+        $tmp["action"] = $row["action"];
+        $tmp["quit_price"] = $row["quit_price"];
+        $tmp["account"] = $row["account"];
+        $tmp["open_date"] = $row["open_date"];
         // 不返回is_ready_close了，客户端也相应取消这个字段
+        $objects[] = $tmp;
     }
     return array("data" => $objects);
 }

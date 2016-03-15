@@ -33,4 +33,24 @@
     <position_detail_futures id="4" position_futures_id="2" detail_futures_id="4"/>
     <position_detail_futures id="5" position_futures_id="3" detail_futures_id="6"/>
     <position_detail_futures id="6" position_futures_id="4" detail_futures_id="5"/>
+    
+    <detail_stock id="1" code="600399" name="广晟有色" status="平" open_price="30" open_date="2015-5-1" account="27107470"/>
+    <detail_stock id="2" code="600399" name="广晟有色" status="持" open_price="30" open_date="2015-5-1" account="27107470"/>
+    <detail_stock id="3" code="600399" name="广晟有色" status="持" open_price="32" open_date="2015-5-1" account="27107470"/>
+    <detail_stock id="4" code="000123" name="深圳光电" status="持" open_price="24" open_date="2015-6-1" account="27107470"/>
+    <detail_stock id="5" code="000123" name="深圳光电" status="持" open_price="26" open_date="2015-6-1" account="27107470"/>
+    <detail_stock id="6" code="600399" name="广晟有色" status="持" open_price="80" open_date="2015-10-3" account="123456"/>
+    <detail_stock id="7" code="600399" name="广晟有色" status="持" open_price="76" open_date="2015-10-3" account="123456"/>
+    
+    <position_stock id="1" quit_price="29" action="卖出 &lt;="/>
+    <position_stock id="2" quit_price="27" action="卖出 &gt;="/>
+    <position_stock id="3" quit_price="92" action="卖出 &gt;="/>
+    
+    <position_detail_stock id="1" position_stock_id="1" detail_stock_id="1"/>
+    <position_detail_stock id="2" position_stock_id="1" detail_stock_id="2"/>
+    <position_detail_stock id="3" position_stock_id="1" detail_stock_id="3"/>
+    <position_detail_stock id="4" position_stock_id="2" detail_stock_id="4"/>
+    <position_detail_stock id="5" position_stock_id="2" detail_stock_id="5"/>
+    <position_detail_stock id="6" position_stock_id="3" detail_stock_id="6"/>
+    <position_detail_stock id="7" position_stock_id="3" detail_stock_id="7"/>
 </dataset>

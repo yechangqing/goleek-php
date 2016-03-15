@@ -3,7 +3,7 @@
 /**
  * 定义全局变量和属性
  */
-DEFINE('HOST', 'localhost:3306');
+DEFINE('HOST', 'localhost:3303');
 DEFINE('USER', 'yecq');
 DEFINE('PASSWD', '801111');
 DEFINE('DB', 'goleek_test');
