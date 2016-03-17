@@ -3,7 +3,7 @@
 namespace position_futures;
 
 require_once dirname(__FILE__) . "/../global.php";
-$_POST["id"]=2;
+
 echo get_json_result(do_delete());
 
 function do_delete() {
@@ -12,25 +12,27 @@ function do_delete() {
     }
     $id = $_POST["id"];
     $conn = mysqli_connect(HOST, USER, PASSWD, DB) or die("无法连接到数据库");
-    // 取得还有哪些detail，并删除
-    $ret = get_details($id, $conn);
+     // 先记录下相关的detail_futures的id和position_detail_futures的id
+    $ret = get_relate_ids($id, $conn);
     if ($ret["status"] !== "ok") {
         mysqli_close($conn);
         return $ret;
     }
-    $detail_ids = $ret["data"];
-    $stmt = "delete from detail_futures where ";
-    foreach ($detail_ids as $unit) {
-        $stmt.="id=$unit or ";
-    }
-    $stmt = substr($stmt, 0, strlen($stmt) - 4);
-    if (!mysqli_query($conn, $stmt)) {
-        $msg = mysqli_error($conn);
+    $detail_id = $ret["detail_futures"];
+    $position_detail_id = $ret["position_detail_futures"];
+    // 删除details
+    $ret = delete_by_ids("detail_futures", $detail_id, $conn);
+    if (!$ret) {
         mysqli_close($conn);
-        return array("status" => "error", "message" => $msg);
+        return $ret;
+    }
+    // 删除position_detail
+    $ret = delete_by_ids("position_detail_futures", $position_detail_id, $conn);
+    if (!$ret) {
+        mysqli_close($conn);
+        return $ret;
     }
 
-    // 删除仓位
     if (!mysqli_query($conn, "delete from position_futures where id=$id")) {
         $msg = mysqli_error($conn);
         mysqli_close($conn);
@@ -39,14 +41,31 @@ function do_delete() {
     mysqli_close($conn);
 }
 
-function get_details($pid, $conn) {
-    $result = mysqli_query($conn, "select id from detail_futures where id in (select detail_futures_id from position_detail_futures where position_futures_id=$pid)");
-    if (!$result) {
+function get_relate_ids($pid, $conn) {
+    // 返回两个array，一个是detail_futures，一个是position_detail_futures
+    $stmt = "select * from position_detail_futures where position_futures_id=$pid";
+    $ret = mysqli_query($conn, $stmt);
+    if (!$ret) {
         return array("status" => "error", "message" => mysqli_error($conn));
     }
-    $detail_ids = array();
-    foreach ($result as $row) {
-        $detail_ids[] = $row["id"];
+    $detail_futures = array();
+    $position_detail_futures = array();
+    foreach ($ret as $row) {
+        $detail_futures[] = $row["detail_futures_id"];
+        $position_detail_futures[] = $row["id"];
     }
-    return array("status" => "ok", "data" => $detail_ids);
+    return array("status" => "ok", "detail_futures" => $detail_futures, "position_detail_futures" => $position_detail_futures);
+}
+
+function delete_by_ids($table, $ids, $conn) {
+    $stmt = "";
+    foreach ($ids as $d_id) {
+        $stmt.="id=$d_id or ";
+    }
+    $stmt = substr($stmt, 0, strlen($stmt) - 4);
+    $stmt = "delete from " . $table . " where " . $stmt;
+    if (!mysqli_query($conn, $stmt)) {
+        return array("status" => "error", "message" => $msg);
+    }
+    return array("status" => "ok");
 }

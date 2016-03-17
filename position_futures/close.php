@@ -49,7 +49,14 @@ function do_close() {
 
     $d_ids = $ret["data"];
     if (count($d_ids) == 0) {
-        // 顺带删除仓位
+        // 顺带删除仓位以及position_detail_id，sae上没有外键
+        $ret = mysqli_query($conn, "delete from position_detail_futures where position_futures_id=$id");
+        if (!$ret) {
+            $msg = mysqli_error($conn);
+            mysqli_close($conn);
+            return array("status" => "error", "message" => $msg);
+        }
+
         $ret = mysqli_query($conn, "delete from position_futures where id=$id");
         if (!$ret) {
             $msg = mysqli_error($conn);

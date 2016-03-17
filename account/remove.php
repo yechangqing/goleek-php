@@ -3,6 +3,7 @@
 namespace account;
 
 require_once dirname(__FILE__) . "/../global.php";
+
 echo get_json_result(do_remove());
 
 function do_remove() {

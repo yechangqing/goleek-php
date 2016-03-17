@@ -13,11 +13,38 @@ function do_clone() {
     $id = $_POST["id"];
     $param = json_decode($_POST["json"], true);
     $new_code = $param["newCode"];
+
     $conn = mysqli_connect(HOST, USER, PASSWD, DB) or die("无法连接到数据库");
-    if (!mysqli_query($conn, "update futures set code='$new_code' where id=$id")) {
+    $result = mysqli_query($conn, "select * from futures where id=$id");
+    if (!$result) {
         $msg = mysqli_error($conn);
         mysqli_close($conn);
         return array("status" => "error", "message" => $msg);
     }
+    $old_contract = mysqli_fetch_assoc($result);
+    $old_code = $old_contract["code"];
+    // 名称不能相同
+    if ($old_code == $new_code) {
+        return array("status" => "fail", "message" => "新合约名称重复");
+    }
+    // 且必须跟原来的是同一个合约
+    $old_code_prefix = substr($old_code, 0, strlen($old_code) - 4);
+    if (substr($new_code, 0, strlen($new_code) - 4) != $old_code_prefix) {
+        return array("status" => "fail", "message" => "新合约必须是" . $old_code_prefix);
+    }
+    $name = $old_contract["name"];
+    $margin = $old_contract["margin"];
+    $unit = $old_contract["unit"];
+    $min = $old_contract["min"];
+    $exchange = $old_contract["exchange"];
+    $stmt = "insert into futures (code,name,margin,unit,min,exchange) "
+            . "values('$new_code','$name',$margin,$unit,$min,'$exchange')";
+    if (!mysqli_query($conn, $stmt)) {
+        $msg = mysqli_error($conn);
+        mysqli_close($conn);
+        return array("status" => "error", "message" => $msg);
+    }
+    $new_id = mysqli_insert_id($conn);
     mysqli_close($conn);
+    return array("data" => $new_id);
 }

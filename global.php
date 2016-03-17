@@ -3,14 +3,14 @@
 /**
  * 定义全局变量和属性
  */
-DEFINE('HOST', 'localhost:3306');
+DEFINE('HOST', 'localhost:3303');
 DEFINE('USER', 'yecq');
 DEFINE('PASSWD', '801111');
 DEFINE('DB', 'goleek_test');
 
 function get_json_result($arr) {
     if ($arr === null || !is_array($arr)) {
-        return '{"status":"ok","message":"ok"}';
+        return '[{"status":"ok","message":"ok"}]';
     }
 
     $sret = array();

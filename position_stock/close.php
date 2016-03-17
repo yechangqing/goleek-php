@@ -44,6 +44,13 @@ function do_close() {
 
     $unclose_id = $ret["data"];
     if (count($unclose_id) == 0) {
+        $ret = mysqli_query($conn, "delete from position_detail_stock where position_stock_id=$id");
+        if (!$ret) {
+            $msg = mysqli_error($conn);
+            mysqli_close($conn);
+            return array("status" => "error", "message" => $msg);
+        }
+
         $ret = mysqli_query($conn, "delete from position_stock where id=$id");
         if (!$ret) {
             $msg = mysqli_error($conn);

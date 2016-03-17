@@ -31,4 +31,5 @@ function do_save_default() {
         return array("status" => "error", "message" => $msg);
     }
     mysqli_close($conn);
+    return array("message"=>"参数保存成功");
 }

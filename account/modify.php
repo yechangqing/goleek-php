@@ -19,7 +19,7 @@ function do_modify() {
         $code = $param["code"];
         $sql.="code='$code',";
     }
-    if (in_array($code, $v)) {
+    if (in_array("company", $v)) {
         $company = $param["company"];
         $sql.="company='$company',";
     }
