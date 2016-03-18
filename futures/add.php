@@ -18,13 +18,13 @@ function do_add() {
     $min = $params["min"];
     $exchange = $params["exchange"];
     $stmt = "insert into futures (code,name,margin,unit,min,exchange) values ('$code','$name',$margin,$unit,$min,'$exchange')";
-    $conn = mysqli_connect(HOST, USER, PASSWD, DB) or die("无法连接到数据库");
-    $result = mysqli_query($conn, $stmt);
-    if (!$result) {
-        $error = mysqli_error($conn);
-        mysqli_close($conn);
-        return array("status" => "error", "message" => $error);
-    }
+    $conn = @mysqli_connect(HOST, USER, PASSWD, DB) or die_db_link() or die_db_link();
+    $result = mysqli_query($conn, $stmt) or die_db_error($conn);
+//    if (!$result) {
+//        $error = mysqli_error($conn);
+//        mysqli_close($conn);
+//        return array("status" => "error", "message" => $error);
+//    }
     $id = mysqli_insert_id($conn);
     mysqli_close($conn);
     return array("data" => $id);

@@ -24,12 +24,13 @@ function do_save_default() {
         $stmt.="loss_percent=$loss_percent,";
     }
     $stmt = substr($stmt, 0, strlen($stmt) - 1) . " where id=$id";
-    $conn = mysqli_connect(HOST, USER, PASSWD, DB) or die("无法连接到数据库");
-    if (!mysqli_query($conn, $stmt)) {
-        $msg = mysqli_error($conn);
-        mysqli_close($conn);
-        return array("status" => "error", "message" => $msg);
-    }
+    $conn = @mysqli_connect(HOST, USER, PASSWD, DB) or die_db_link();
+    mysqli_query($conn, $stmt) or die_db_error($conn);
+//    if (!) {
+//        $msg = mysqli_error($conn);
+//        mysqli_close($conn);
+//        return array("status" => "error", "message" => $msg);
+//    }
     mysqli_close($conn);
-    return array("message"=>"参数保存成功");
+    return array("message" => "参数保存成功");
 }

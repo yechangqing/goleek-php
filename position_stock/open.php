@@ -17,7 +17,7 @@ function do_open() {
     $open_date = $param["open_date"];
     $quit_price = $param["quit_price"];
     $account = $param["account"];
-    $conn = mysqli_connect(HOST, USER, PASSWD, DB) or die("无法连接到数据库");
+    $conn = @mysqli_connect(HOST, USER, PASSWD, DB) or die_db_link();
     // 是否存在此持仓
     $ret = exist_position($code, $account, $conn);
     if ($ret["status"] !== "ok") {
@@ -27,12 +27,12 @@ function do_open() {
     $id = count($ret["data"]) == 0 ? null : $ret["data"][0];
     if ($id === null) {
         // 开仓
-        $ret = mysqli_query($conn, "insert into position_stock(quit_price,action) values($quit_price,'卖出 <=')");
-        if (!$ret) {
-            $msg = mysqli_error($conn);
-            mysqli_close($conn);
-            return array("status" => "error", "message" => $msg);
-        }
+        $ret = mysqli_query($conn, "insert into position_stock(quit_price,action) values($quit_price,'卖出 <=')") or die_db_error($conn);
+//        if (!$ret) {
+//            $msg = mysqli_error($conn);
+//            mysqli_close($conn);
+//            return array("status" => "error", "message" => $msg);
+//        }
         $id = mysqli_insert_id($conn);
     }
 
@@ -56,10 +56,10 @@ function do_open() {
 
 function exist_position($code, $account, $conn) {
     $stmt = "select id from v_position_stock where code='$code' and account='$account'";
-    $ret = mysqli_query($conn, $stmt);
-    if (!$ret) {
-        return array("status" => "error", "message" => mysqli_error($conn));
-    }
+    $ret = mysqli_query($conn, $stmt) or die_db_error($conn);
+//    if (!$ret) {
+//        return array("status" => "error", "message" => mysqli_error($conn));
+//    }
     $ids = array();
     foreach ($ret as $row) {
         $ids[] = $row["id"];
@@ -72,10 +72,10 @@ function insert_detail($code, $lot, $open_price, $open_date, $account, $conn) {
     for ($i = 1; $i <= $lot; $i++) {
         $stmt = "insert into detail_stock (code,name,open_price,open_date,account) values("
                 . "'$code',(select name from stock where code='$code'),$open_price,'$open_date','$account')";
-        $ret = mysqli_query($conn, $stmt);
-        if (!$ret) {
-            return array("status" => "error", "message" => mysqli_error($conn));
-        }
+        mysqli_query($conn, $stmt) or die_db_error($conn);
+//        if (!$ret) {
+//            return array("status" => "error", "message" => mysqli_error($conn));
+//        }
         $detail_ids[] = mysqli_insert_id($conn);
     }
     return array("status" => "ok", "data" => $detail_ids);
@@ -84,9 +84,9 @@ function insert_detail($code, $lot, $open_price, $open_date, $account, $conn) {
 function make_position_detail_stock($p_id, $d_ids, $conn) {
     foreach ($d_ids as $detail_id) {
         $stmt = "insert into position_detail_stock(position_stock_id, detail_stock_id) values($p_id,$detail_id)";
-        $ret = mysqli_query($conn, $stmt);
-        if (!$ret) {
-            return array("status" => "error", "message" => mysqli_error($conn));
-        }
+        mysqli_query($conn, $stmt) or die_db_error($conn);
+//        if (!$ret) {
+//            return array("status" => "error", "message" => mysqli_error($conn));
+//        }
     }
 }

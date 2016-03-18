@@ -53,35 +53,20 @@ function get_param_from_request($key) {
     return get_value($_POST, $key);
 }
 
-// 从param里解析出update
-//function analysis_sql_update($table, $id, $params) {
-//    if ($table == null || $id == null || $params == null) {
-//        return null;
-//    }
-//    if (!is_array($params) || count($params) == 0) {
-//        return null;
-//    }
-//
-//    $sql = "";
-//    $keys = array_keys($params);
-//    foreach ($keys as $k) {
-//        $sql.=$k . "=" . $params[$k] . ",";
-//    }
-//
-//    $sql = "update " . $table . " set " . substr($sql, 0, strlen($sql) - 1) . " where id=" . $id;
-//    return $sql;
-//}
+function die_db_error($conn) {
+    $args = func_get_args();
+    $num = count($args);
+    $msg = mysqli_error($conn);
+    if ($num > 1) {
+        $msg = $args[1];
+    }
+    mysqli_close($conn);
+    die(get_json_result(array("status" => "error", "message" => $msg)));
+}
 
-// 从param里解析出insert
-//function analysis_sql_insert($table, $params) {
-//    if ($table == null || $params == null) {
-//        return null;
-//    }
-//    if (!is_array($params) || count($params) == 0) {
-//        return null;
-//    }
-//
-//    $sql = "";
-//
-//    return $sql;
-//}
+function die_db_link() {
+    $args = func_get_args();
+    $num = count($args);
+    $msg = $num === 0 ? "数据库连接失败" : $args[0];
+    die(get_json_result(array("status" => "error", "message" => $msg)));
+}

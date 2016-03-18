@@ -14,12 +14,12 @@ function do_edit_quit() {
     $param = json_decode($_POST["json"], true);
     $action = $param["action"];
     $price = $param["price"];
-    $conn = mysqli_connect(HOST, USER, PASSWD, DB) or die("无法连接到数据库");
-    $result = mysqli_query($conn, "update position_stock set action='$action', quit_price=$price where id=$id");
-    if (!$result) {
-        $msg = mysqli_error($conn);
-        mysqli_close($conn);
-        return array("status" => "error", "message" => $msg);
-    }
+    $conn = @mysqli_connect(HOST, USER, PASSWD, DB) or die_db_link();
+    $result = mysqli_query($conn, "update position_stock set action='$action', quit_price=$price where id=$id") or die_db_error($conn);
+//    if (!$result) {
+//        $msg = mysqli_error($conn);
+//        mysqli_close($conn);
+//        return array("status" => "error", "message" => $msg);
+//    }
     mysqli_close($conn);
 }

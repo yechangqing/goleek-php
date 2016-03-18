@@ -11,7 +11,7 @@ function do_delete() {
         return array("status" => "error", "message" => "缺失字段id");
     }
     $id = $_POST["id"];
-    $conn = mysqli_connect(HOST, USER, PASSWD, DB) or die("无法连接到数据库");
+    $conn = @mysqli_connect(HOST, USER, PASSWD, DB) or die_db_link();
     // 先记录下相关的detail_futures的id和position_detail_futures的id
     $ret = get_relate_ids($id, $conn);
     if ($ret["status"] !== "ok") {
@@ -33,21 +33,22 @@ function do_delete() {
         return $ret;
     }
 
-    if (!mysqli_query($conn, "delete from position_stock where id=$id")) {
-        $msg = mysqli_error($conn);
-        mysqli_close($conn);
-        return array("status" => "error", "message" => $msg);
-    }
+    mysqli_query($conn, "delete from position_stock where id=$id") or die_db_error($conn);
+//    if (!mysqli_query($conn, "delete from position_stock where id=$id")) {
+//        $msg = mysqli_error($conn);
+//        mysqli_close($conn);
+//        return array("status" => "error", "message" => $msg);
+//    }
     mysqli_close($conn);
 }
 
 function get_relate_ids($pid, $conn) {
     // 返回两个array，一个是detail_stock，一个是position_detail_stock
     $stmt = "select * from position_detail_stock where position_stock_id=$pid";
-    $ret = mysqli_query($conn, $stmt);
-    if (!$ret) {
-        return array("status" => "error", "message" => mysqli_error($conn));
-    }
+    $ret = mysqli_query($conn, $stmt) or die_db_error($conn);
+//    if (!$ret) {
+//        return array("status" => "error", "message" => mysqli_error($conn));
+//    }
     $detail_stock = array();
     $position_detail_stock = array();
     foreach ($ret as $row) {
@@ -64,8 +65,9 @@ function delete_by_ids($table, $ids, $conn) {
     }
     $stmt = substr($stmt, 0, strlen($stmt) - 4);
     $stmt = "delete from " . $table . " where " . $stmt;
-    if (!mysqli_query($conn, $stmt)) {
-        return array("status" => "error", "message" => $msg);
-    }
+    mysqli_query($conn, $stmt) or die_db_error($conn);
+//    if (!mysqli_query($conn, $stmt)) {
+//        return array("status" => "error", "message" => $msg);
+//    }
     return array("status" => "ok");
 }

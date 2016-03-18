@@ -15,12 +15,13 @@ function do_add() {
     $name = $param["name"];
     $exchange = $param["exchange"];
     $stmt = "insert into stock (code,name,exchange) values('$code','$name','$exchange')";
-    $conn = mysqli_connect(HOST, USER, PASSWD, DB) or die("无法连接到数据库");
-    if (!mysqli_query($conn, $stmt)) {
-        $msg = mysqli_error($conn);
-        mysqli_close($conn);
-        return array("status" => "error", "message" => $msg);
-    }
+    $conn = @mysqli_connect(HOST, USER, PASSWD, DB) or die_db_link();
+    mysqli_query($conn, $stmt) or die_db_error($conn);
+//    if (!mysqli_query($conn, $stmt)) {
+//        $msg = mysqli_error($conn);
+//        mysqli_close($conn);
+//        return array("status" => "error", "message" => $msg);
+//    }
     $id = mysqli_insert_id($conn);
     mysqli_close($conn);
     return array("data" => $id);

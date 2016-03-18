@@ -16,7 +16,7 @@ function do_close() {
     $price = $param["price"];
     $date = $param["date"];
 
-    $conn = mysqli_connect(HOST, USER, PASSWD, DB) or die("无法连接到数据库");
+    $conn = @mysqli_connect(HOST, USER, PASSWD, DB) or die_db_link();
     $ret = get_closing_detail_ids($id, $lot, $conn);
     if ($ret["status"] !== "ok") {
         mysqli_close($conn);
@@ -32,12 +32,13 @@ function do_close() {
         }
         $stmt = substr($stmt, 0, strlen($stmt) - 4);
         $stmt = "update detail_futures set status='平',close_price=$price,close_date='$date' where " . $stmt;
-        $ret = mysqli_query($conn, $stmt);
-        if (!$ret) {
-            $msg = mysqli_error($conn);
-            mysqli_close($conn);
-            return array("status" => "error", "message" => $msg);
-        }
+        mysqli_query($conn, $stmt) or die_db_error($conn);
+//        $ret = mysqli_query($conn, $stmt);
+//        if (!$ret) {
+//            $msg = mysqli_error($conn);
+//            mysqli_close($conn);
+//            return array("status" => "error", "message" => $msg);
+//        }
     }
 
     // 看还有多少未平仓的detail
@@ -50,19 +51,19 @@ function do_close() {
     $d_ids = $ret["data"];
     if (count($d_ids) == 0) {
         // 顺带删除仓位以及position_detail_id，sae上没有外键
-        $ret = mysqli_query($conn, "delete from position_detail_futures where position_futures_id=$id");
-        if (!$ret) {
-            $msg = mysqli_error($conn);
-            mysqli_close($conn);
-            return array("status" => "error", "message" => $msg);
-        }
+        mysqli_query($conn, "delete from position_detail_futures where position_futures_id=$id") or die_db_error($conn);
+//        if (!$ret) {
+//            $msg = mysqli_error($conn);
+//            mysqli_close($conn);
+//            return array("status" => "error", "message" => $msg);
+//        }
 
-        $ret = mysqli_query($conn, "delete from position_futures where id=$id");
-        if (!$ret) {
-            $msg = mysqli_error($conn);
-            mysqli_close($conn);
-            return array("status" => "error", "message" => $msg);
-        }
+        mysqli_query($conn, "delete from position_futures where id=$id") or die_db_error($conn);
+//        if (!$ret) {
+//            $msg = mysqli_error($conn);
+//            mysqli_close($conn);
+//            return array("status" => "error", "message" => $msg);
+//        }
     }
     mysqli_close($conn);
 }
@@ -71,11 +72,11 @@ function do_close() {
 function get_closing_detail_ids($pid, $lot, $conn) {
     $stmt = "select id from detail_futures where id in (select detail_futures_id from position_detail_futures where position_futures_id=$pid) "
             . "and status='持' order by id limit $lot";
-    $result = mysqli_query($conn, $stmt);
-    if (!$result) {
-        $msg = mysqli_error($conn);
-        return array("status" => "error", "message" => $msg);
-    }
+    $result = mysqli_query($conn, $stmt) or die_db_error($conn);
+//    if (!$result) {
+//        $msg = mysqli_error($conn);
+//        return array("status" => "error", "message" => $msg);
+//    }
     $d_ids = array();
     foreach ($result as $row) {
         $d_ids[] = $row["id"];
@@ -89,10 +90,10 @@ function get_unclosed_detail_ids($pid, $conn) {
             . "where id in (select detail_futures_id from position_detail_futures where position_futures_id=$pid) "
             . "and status='持' "
             . "order by id";
-    $result = mysqli_query($conn, $stmt);
-    if (!$result) {
-        return array("status" => "error", "message" => mysqli_error($conn));
-    }
+    $result = mysqli_query($conn, $stmt) or die_db_error($conn);
+//    if (!$result) {
+//        return array("status" => "error", "message" => mysqli_error($conn));
+//    }
     $ids = array();
     foreach ($result as $row) {
         $ids[] = $row["id"];

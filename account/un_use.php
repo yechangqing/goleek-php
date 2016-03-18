@@ -12,12 +12,12 @@ function do_un_use() {
     }
 
     $id = $_POST["id"];
-    $conn = mysqli_connect(HOST, USER, PASSWD, DB) or die("无法连接到数据库");
-    $ret = mysqli_query($conn, "update account set used='n' where id=$id");
-    if (!$ret) {
-        $msg = mysqli_error($conn);
-        mysqli_close($conn);
-        return array("status" => "error", "message" => $msg);
-    }
+    $conn = @mysqli_connect(HOST, USER, PASSWD, DB) or die_db_link();
+    $ret = mysqli_query($conn, "update account set used='n' where id=$id") or die_db_error($conn);
+//    if (!$ret) {
+//        $msg = mysqli_error($conn);
+//        mysqli_close($conn);
+//        return array("status" => "error", "message" => $msg);
+//    }
     mysqli_close($conn);
 }
