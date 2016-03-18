@@ -33,7 +33,7 @@ function do_modify() {
     }
     $sql = substr($sql, 0, strlen($sql) - 1) . " where id=$id";
 
-    $connect = @mysqli_connect(HOST, USER, PASSWD, DB) or die_db_link();
+    $connect = @mysqli_connect(SAE_MYSQL_HOST_M . ":" . SAE_MYSQL_PORT, SAE_MYSQL_USER, SAE_MYSQL_PASS, SAE_MYSQL_DB) or die_db_link();
     mysqli_query($connect, $sql) or die_db_error($connect);
     mysqli_close($connect);
 }

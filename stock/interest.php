@@ -11,7 +11,7 @@ function do_interest() {
         return array("status" => "error", "message" => "缺少字段id");
     }
     $id = $_POST["id"];
-    $conn = @mysqli_connect(HOST, USER, PASSWD, DB) or die_db_link();
+    $conn = @mysqli_connect(SAE_MYSQL_HOST_M . ":" . SAE_MYSQL_PORT, SAE_MYSQL_USER, SAE_MYSQL_PASS, SAE_MYSQL_DB) or die_db_link();
     mysqli_query($conn, "update stock set interest='y' where id=$id") or die_db_error($conn);
     mysqli_close($conn);
 }

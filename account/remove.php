@@ -13,7 +13,7 @@ function do_remove() {
         $message = "error";
         return array("status" => "error", "message" => "缺失字段id");
     }
-    $link = @mysqli_connect(HOST, USER, PASSWD, DB) or die_db_link();
+    $link = @mysqli_connect(SAE_MYSQL_HOST_M . ":" . SAE_MYSQL_PORT, SAE_MYSQL_USER, SAE_MYSQL_PASS, SAE_MYSQL_DB) or die_db_link();
     $id = $_POST["id"];
     $stmt = "delete from account where id=$id";
     mysqli_query($link, $stmt) or die_db_error($link);

@@ -17,7 +17,7 @@ function do_open() {
     $open_date = $param["open_date"];
     $quit_price = $param["quit_price"];
     $account = $param["account"];
-    $conn = @mysqli_connect(HOST, USER, PASSWD, DB) or die_db_link();
+    $conn = @mysqli_connect(SAE_MYSQL_HOST_M . ":" . SAE_MYSQL_PORT, SAE_MYSQL_USER, SAE_MYSQL_PASS, SAE_MYSQL_DB) or die_db_link();
     // 是否存在此持仓
     $ret = exist_position($code, $account, $conn);
     if ($ret["status"] !== "ok") {

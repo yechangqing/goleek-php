@@ -3,10 +3,13 @@
 /**
  * 定义全局变量和属性
  */
-DEFINE('HOST', 'localhost:3303');
-DEFINE('USER', 'yecq');
-DEFINE('PASSWD', '801111');
-DEFINE('DB', 'goleek_test');
+
+// 部署到sae时删除以下配置
+define('SAE_MYSQL_HOST_M', 'localhost:3303');
+define('SAE_MYSQL_USER', 'yecq');
+define('SAE_MYSQL_PASS', '801111');
+define('SAE_MYSQL_PORT', '3303');
+define('SAE_MYSQL_DB', 'goleek_test');
 
 function get_json_result($arr) {
     if ($arr === null || !is_array($arr)) {
