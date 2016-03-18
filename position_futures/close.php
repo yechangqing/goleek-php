@@ -33,12 +33,6 @@ function do_close() {
         $stmt = substr($stmt, 0, strlen($stmt) - 4);
         $stmt = "update detail_futures set status='平',close_price=$price,close_date='$date' where " . $stmt;
         mysqli_query($conn, $stmt) or die_db_error($conn);
-//        $ret = mysqli_query($conn, $stmt);
-//        if (!$ret) {
-//            $msg = mysqli_error($conn);
-//            mysqli_close($conn);
-//            return array("status" => "error", "message" => $msg);
-//        }
     }
 
     // 看还有多少未平仓的detail

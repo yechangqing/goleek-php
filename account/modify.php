@@ -35,10 +35,5 @@ function do_modify() {
 
     $connect = @mysqli_connect(HOST, USER, PASSWD, DB) or die_db_link();
     mysqli_query($connect, $sql) or die_db_error($connect);
-//    if (!mysqli_query($connect, $sql)) {
-//        $msg = mysqli_error($connect);
-//        mysqli_close($connect);
-//        return array("status" => "error", "message" => $msg);
-//    }
     mysqli_close($connect);
 }

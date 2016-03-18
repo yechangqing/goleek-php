@@ -41,12 +41,6 @@ function do_open() {
 
         // 写入position_futures
         mysqli_query($conn, "insert into position_futures (quit_price,action) values ($quit_price,'$action')") or die_db_error($conn);
-//        $result = mysqli_query($conn, "insert into position_futures (quit_price,action) values ($quit_price,'$action')");
-//        if (!$result) {
-//            $msg = mysqli_error($conn);
-//            mysqli_close($conn);
-//            return array("status" => "error", "message" => $msg);
-//        }
         $p_id = mysqli_insert_id($conn);
     }
 
@@ -68,11 +62,6 @@ function do_open() {
 function exist($contract, $direct, $account, $conn) {
     $result = mysqli_query($conn, "select * from v_position_futures where contract='$contract' and direct='$direct' and account='$account'")
             or die_db_error($conn);
-//    if (!$result) {
-//        $msg = mysqli_error($conn);
-//        mysqli_close($conn);
-//        return array("status" => "error", "message" => $msg);
-//    }
     $ids = array();
     foreach ($result as $row) {
         $ids[] = $row["id"];
@@ -88,9 +77,6 @@ function insert_detail($contract, $direct, $lot, $open_price, $open_date, $accou
                 . "(select name from futures where code='$contract'),'$direct',$open_price,'$open_date',"
                 . "(select margin from futures where code='$contract'),(select unit from futures where code='$contract'),'$account')";
         $ret = mysqli_query($conn, $stmt) or die_db_error($conn);
-//        if (!$ret) {
-//            return array("status" => "error", "message" => mysqli_error($conn));
-//        }
         $ids[] = mysqli_insert_id($conn);
     }
     return array("status" => "ok", "data" => $ids);
@@ -104,8 +90,5 @@ function make_position_detail_futures($p_id, $d_ids, $conn) {
     $stmt = substr($stmt, 0, strlen($stmt) - 1);
     $stmt = "insert into position_detail_futures(position_futures_id,detail_futures_id) values " . $stmt;
     mysqli_query($conn, $stmt) or die_db_error($conn);
-//    if (!$ret) {
-//        return array("status" => "error", "message" => mysqli_error($conn));
-//    }
     return array("status" => "ok");
 }

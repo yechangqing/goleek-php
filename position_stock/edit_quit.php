@@ -16,10 +16,5 @@ function do_edit_quit() {
     $price = $param["price"];
     $conn = @mysqli_connect(HOST, USER, PASSWD, DB) or die_db_link();
     $result = mysqli_query($conn, "update position_stock set action='$action', quit_price=$price where id=$id") or die_db_error($conn);
-//    if (!$result) {
-//        $msg = mysqli_error($conn);
-//        mysqli_close($conn);
-//        return array("status" => "error", "message" => $msg);
-//    }
     mysqli_close($conn);
 }

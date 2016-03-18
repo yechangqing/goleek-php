@@ -34,11 +34,6 @@ function do_delete() {
     }
 
     mysqli_query($conn, "delete from position_futures where id=$id") or die_db_error($conn);
-//    if (!mysqli_query($conn, "delete from position_futures where id=$id")) {
-//        $msg = mysqli_error($conn);
-//        mysqli_close($conn);
-//        return array("status" => "error", "message" => $msg);
-//    }
     mysqli_close($conn);
 }
 
@@ -46,9 +41,6 @@ function get_relate_ids($pid, $conn) {
     // 返回两个array，一个是detail_futures，一个是position_detail_futures
     $stmt = "select * from position_detail_futures where position_futures_id=$pid";
     $ret = mysqli_query($conn, $stmt) or die_db_error($conn);
-//    if (!$ret) {
-//        return array("status" => "error", "message" => mysqli_error($conn));
-//    }
     $detail_futures = array();
     $position_detail_futures = array();
     foreach ($ret as $row) {
@@ -66,8 +58,5 @@ function delete_by_ids($table, $ids, $conn) {
     $stmt = substr($stmt, 0, strlen($stmt) - 4);
     $stmt = "delete from " . $table . " where " . $stmt;
     mysqli_query($conn, $stmt) or die_db_error($conn);
-//    if (!mysqli_query($conn, $stmt)) {
-//        return array("status" => "error", "message" => $msg);
-//    }
     return array("status" => "ok");
 }

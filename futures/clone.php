@@ -16,11 +16,6 @@ function do_clone() {
 
     $conn = @mysqli_connect(HOST, USER, PASSWD, DB) or die_db_link();
     $result = mysqli_query($conn, "select * from futures where id=$id") or die_db_error($conn);
-//    if (!$result) {
-//        $msg = mysqli_error($conn);
-//        mysqli_close($conn);
-//        return array("status" => "error", "message" => $msg);
-//    }
     $old_contract = mysqli_fetch_assoc($result);
     $old_code = $old_contract["code"];
     // 名称不能相同
@@ -40,11 +35,6 @@ function do_clone() {
     $stmt = "insert into futures (code,name,margin,unit,min,exchange) "
             . "values('$new_code','$name',$margin,$unit,$min,'$exchange')";
     mysqli_query($conn, $stmt) or die_db_error($conn);
-//    if (!mysqli_query($conn, $stmt)) {
-//        $msg = mysqli_error($conn);
-//        mysqli_close($conn);
-//        return array("status" => "error", "message" => $msg);
-//    }
     $new_id = mysqli_insert_id($conn);
     mysqli_close($conn);
     return array("data" => $new_id);

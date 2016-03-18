@@ -14,10 +14,5 @@ function do_interest() {
     $conn = @mysqli_connect(HOST, USER, PASSWD, DB) or die_db_link();
     $stmt = "update futures set interest='y' where id=$id";
     mysqli_query($conn, $stmt) or die_db_error($conn);
-//    if (!mysqli_query($conn, $stmt)) {
-//        $msg = mysqli_error($conn);
-//        mysqli_close($conn);
-//        return array("status" => "error", "message" => $msg);
-//    }
     mysqli_close($conn);
 }

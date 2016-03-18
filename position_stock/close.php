@@ -45,18 +45,7 @@ function do_close() {
     $unclose_id = $ret["data"];
     if (count($unclose_id) == 0) {
         mysqli_query($conn, "delete from position_detail_stock where position_stock_id=$id") or die_db_error($conn);
-//        if (!$ret) {
-//            $msg = mysqli_error($conn);
-//            mysqli_close($conn);
-//            return array("status" => "error", "message" => $msg);
-//        }
-
         mysqli_query($conn, "delete from position_stock where id=$id") or die_db_error($conn);
-//        if (!$ret) {
-//            $msg = mysqli_error($conn);
-//            mysqli_close($conn);
-//            return array("status" => "error", "message" => $msg);
-//        }
     }
     mysqli_close($conn);
 }
@@ -68,9 +57,6 @@ function get_closing_detail_ids($pid, $lot, $conn) {
             . "order by id "
             . "limit $lot";
     $ret = mysqli_query($conn, $stmt) or die_db_error($conn);
-//    if (!$ret) {
-//        return array("status" => "error", "message" => mysqli_error($conn));
-//    }
     $ids = array();
     foreach ($ret as $row) {
         $ids[] = $row["id"];
@@ -86,9 +72,6 @@ function write_detail($close_price, $close_date, $d_ids, $conn) {
     $stmt = substr($stmt, 0, strlen($stmt) - 4);
     $stmt = "update detail_stock set status='平', close_price=$close_price, close_date='$close_date' where " . $stmt;
     mysqli_query($conn, $stmt) or die_db_error($conn);
-//    if (!$ret) {
-//        return array("status" => "error", "message" => mysqli_error($conn));
-//    }
     return array("status" => "ok");
 }
 
@@ -97,9 +80,6 @@ function get_unclosed_detail_ids($pid, $conn) {
             . "where id in (select detail_stock_id from position_detail_stock where position_stock_id = $pid) "
             . "and status='持' order by id";
     $ret = mysqli_query($conn, $stmt) or die_db_error($conn);
-//    if (!$ret) {
-//        return array("status" => "error", mysqli_error($conn));
-//    }
     $d_ids = array();
     foreach ($ret as $row) {
         $d_ids[] = $row["id"];
