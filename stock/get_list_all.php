@@ -7,7 +7,7 @@ require_once dirname(__FILE__) . "/../global.php";
 echo get_json_result(do_get_list_all());
 
 function do_get_list_all() {
-    $conn = @mysqli_connect(HOST, USER, PASSWD, DB) or die_db_link();
+    $conn = db_connect();
     $result = mysqli_query($conn, "select * from stock order by exchange,code") or die_db_error($conn);
     $objects = array();
     foreach ($result as $row) {

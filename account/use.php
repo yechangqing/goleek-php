@@ -12,7 +12,7 @@ function do_use() {
     }
 
     $id = $_POST["id"];
-    $conn = @mysqli_connect(HOST, USER, PASSWD, DB) or die_db_link();
+    $conn = db_connect();
     $ret = mysqli_query($conn, "update account set used='y' where id=$id") or die_db_error($conn);
     mysqli_close($conn);
 }

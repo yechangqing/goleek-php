@@ -15,7 +15,7 @@ function do_add() {
     $name = $param["name"];
     $exchange = $param["exchange"];
     $stmt = "insert into stock (code,name,exchange) values('$code','$name','$exchange')";
-    $conn = @mysqli_connect(HOST, USER, PASSWD, DB) or die_db_link();
+    $conn = db_connect();
     mysqli_query($conn, $stmt) or die_db_error($conn);
     $id = mysqli_insert_id($conn);
     mysqli_close($conn);

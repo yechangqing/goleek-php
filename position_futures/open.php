@@ -23,7 +23,7 @@ function do_open() {
         return array("status" => "error", "message" => "交易手数需>0");
     }
     // 先看是否存在此持仓
-    $conn = @mysqli_connect(HOST, USER, PASSWD, DB) or die_db_link();
+    $conn = db_connect();
     $ret = exist($contract, $direct, $account, $conn);
     if ($ret["status"] == "error") {
         return $ret;

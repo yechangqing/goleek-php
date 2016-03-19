@@ -7,7 +7,7 @@ require_once dirname(__FILE__) . "/../global.php";
 echo get_json_result(do_get_list_futures_used_data());
 
 function do_get_list_futures_used_data() {
-    $connect = @mysqli_connect(HOST, USER, PASSWD, DB) or die_db_link();
+    $connect = db_connect();
 
     $stmt = "select * from account where type='期货' and used='y' order by id";
     $result = mysqli_query($connect, $stmt) or die_db_error($connect);

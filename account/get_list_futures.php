@@ -8,11 +8,11 @@ echo get_json_result(do_get_list_futures_data());
 
 function do_get_list_futures_data() {
     //连接数据库
-    $link1 = @mysqli_connect(HOST, USER, PASSWD) or die_db_link();
+    $link1 = db_connect();
 
 // 选择表，可以和上一步连在一起
-    mysqli_select_db($link1, DB) or die("<h2>表不存在<h2>");
-
+//    mysqli_select_db($link1, DB) or die("<h2>表不存在<h2>");
+//    
 // 查询所有用户
     $stmt = "select * from account where type='期货' order by id";
     $result = mysqli_query($link1, $stmt);

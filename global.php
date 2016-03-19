@@ -3,10 +3,11 @@
 /**
  * 定义全局变量和属性
  */
-DEFINE('HOST', 'localhost:3303');
-DEFINE('USER', 'yecq');
-DEFINE('PASSWD', '801111');
-DEFINE('DB', 'goleek_test');
+define('HOST', 'localhost');
+define('USER', 'yecq');
+define('PASSWD', '801111');
+define('PORT', '3306');
+define('DB', 'goleek_test');
 
 function get_json_result($arr) {
     if ($arr === null || !is_array($arr)) {
@@ -51,6 +52,14 @@ function get_value($array, $key) {
 
 function get_param_from_request($key) {
     return get_value($_POST, $key);
+}
+
+// 数据库连接封装代码
+function db_connect() {
+    $conn = @mysqli_connect(HOST, USER, PASSWD, DB, PORT) or die_db_link();
+    $charset = "utf8";
+    mysqli_set_charset($conn, $charset) or die_db_error($conn, "字符集" . $charset . "设置失败");
+    return $conn;
 }
 
 function die_db_error($conn) {

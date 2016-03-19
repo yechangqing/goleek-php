@@ -11,7 +11,7 @@ function do_delete() {
         return array("status" => "error", "message" => "缺失字段id");
     }
     $id = $_POST["id"];
-    $conn = @mysqli_connect(HOST, USER, PASSWD, DB) or die_db_link();
+    $conn = db_connect();
     // 先记录下相关的detail_futures的id和position_detail_futures的id
     $ret = get_relate_ids($id, $conn);
     if ($ret["status"] !== "ok") {

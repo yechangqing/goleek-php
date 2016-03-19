@@ -18,7 +18,7 @@ function do_add() {
     $min = $params["min"];
     $exchange = $params["exchange"];
     $stmt = "insert into futures (code,name,margin,unit,min,exchange) values ('$code','$name',$margin,$unit,$min,'$exchange')";
-    $conn = @mysqli_connect(HOST, USER, PASSWD, DB) or die_db_link() or die_db_link();
+    $conn = db_connect();
     $result = mysqli_query($conn, $stmt) or die_db_error($conn);
     $id = mysqli_insert_id($conn);
     mysqli_close($conn);

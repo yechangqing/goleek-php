@@ -32,7 +32,7 @@ function do_modify() {
         $stmt.="interest='$interest',";
     }
     $stmt = substr($stmt, 0, strlen($stmt) - 1) . " where id=$id";
-    $conn = @mysqli_connect(HOST, USER, PASSWD, DB) or die_db_link();
+    $conn = db_connect();
     mysqli_query($conn, $stmt) or die_db_error($conn);
     mysqli_close($conn);
 }

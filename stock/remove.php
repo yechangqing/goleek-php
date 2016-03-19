@@ -11,7 +11,7 @@ function do_remove() {
         return array("status" => "error", "message" => "缺失字段id");
     }
     $id = $_POST["id"];
-    $conn = @mysqli_connect(HOST, USER, PASSWD, DB) or die_db_link();
+    $conn = db_connect();
     mysqli_query($conn, "delete from stock where id=$id") or die_db_error($conn);
     mysqli_close($conn);
 }
