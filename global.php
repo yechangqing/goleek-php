@@ -3,13 +3,12 @@
 /**
  * 定义全局变量和属性
  */
-
 // 部署到sae时删除以下配置
-define('SAE_MYSQL_HOST_M', 'localhost:3303');
+define('SAE_MYSQL_HOST_M', 'localhost:3306');
 define('SAE_MYSQL_USER', 'yecq');
 define('SAE_MYSQL_PASS', '801111');
 define('SAE_MYSQL_PORT', '3303');
-define('SAE_MYSQL_DB', 'goleek_test');
+define('SAE_MYSQL_DB', 'goleek_sae_php_test');
 
 function get_json_result($arr) {
     if ($arr === null || !is_array($arr)) {
@@ -54,6 +53,14 @@ function get_value($array, $key) {
 
 function get_param_from_request($key) {
     return get_value($_POST, $key);
+}
+
+// 不得不写一个数据库连接封装代码了
+function db_connect() {
+    $conn = @mysqli_connect(SAE_MYSQL_HOST_M, SAE_MYSQL_USER, SAE_MYSQL_PASS, SAE_MYSQL_DB, SAE_MYSQL_PORT) or die_db_link();
+    $charset = "utf8";
+    mysqli_set_charset($conn, $charset) or die_db_error($conn, "字符集" . $charset . "设置失败");
+    return $conn;
 }
 
 function die_db_error($conn) {

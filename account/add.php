@@ -13,7 +13,7 @@ function do_add() {
         return array("status" => "error", "message" => "参数缺失");
     }
     $param = json_decode($_POST["json"], true);
-    $link = @mysqli_connect(SAE_MYSQL_HOST_M . ":" . SAE_MYSQL_PORT, SAE_MYSQL_USER, SAE_MYSQL_PASS, SAE_MYSQL_DB) or die_db_link();
+    $link = db_connect();
     $code = get_value($param, "code");
     $company = get_value($param, "company");
     $money = get_value($param, "money");

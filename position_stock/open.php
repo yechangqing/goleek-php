@@ -3,6 +3,7 @@
 namespace position_stock;
 
 require_once dirname(__FILE__) . "/../global.php";
+require_once dirname(__FILE__) . "/../sae.php";
 
 echo get_json_result(do_open());
 
@@ -17,7 +18,7 @@ function do_open() {
     $open_date = $param["open_date"];
     $quit_price = $param["quit_price"];
     $account = $param["account"];
-    $conn = @mysqli_connect(SAE_MYSQL_HOST_M . ":" . SAE_MYSQL_PORT, SAE_MYSQL_USER, SAE_MYSQL_PASS, SAE_MYSQL_DB) or die_db_link();
+    $conn = db_connect();
     // 是否存在此持仓
     $ret = exist_position($code, $account, $conn);
     if ($ret["status"] !== "ok") {
@@ -50,7 +51,7 @@ function do_open() {
 }
 
 function exist_position($code, $account, $conn) {
-    $stmt = "select id from v_position_stock where code='$code' and account='$account'";
+    $stmt = "select id from " . v_position_stock . " where code='$code' and account='$account'";
     $ret = mysqli_query($conn, $stmt) or die_db_error($conn);
     $ids = array();
     foreach ($ret as $row) {

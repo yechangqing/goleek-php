@@ -16,7 +16,7 @@ function do_close() {
     $price = $param["price"];
     $date = $param["date"];
 
-    $conn = @mysqli_connect(SAE_MYSQL_HOST_M . ":" . SAE_MYSQL_PORT, SAE_MYSQL_USER, SAE_MYSQL_PASS, SAE_MYSQL_DB) or die_db_link();
+    $conn = db_connect();
 
     // 选出需要平仓的detail的id
     $ret = get_closing_detail_ids($id, $lot, $conn);

@@ -14,7 +14,7 @@ function do_edit_quit() {
     $param = json_decode($_POST["json"], true);
     $action = $param["action"];
     $price = $param["price"];
-    $conn = @mysqli_connect(SAE_MYSQL_HOST_M . ":" . SAE_MYSQL_PORT, SAE_MYSQL_USER, SAE_MYSQL_PASS, SAE_MYSQL_DB) or die_db_link();
+    $conn = db_connect();
     mysqli_query($conn, "update position_futures set action='$action', quit_price=$price where id=$id") or die_db_error($conn);
     mysqli_close($conn);
 }

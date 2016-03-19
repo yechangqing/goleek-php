@@ -14,7 +14,7 @@ function do_clone() {
     $param = json_decode($_POST["json"], true);
     $new_code = $param["newCode"];
 
-    $conn = @mysqli_connect(SAE_MYSQL_HOST_M . ":" . SAE_MYSQL_PORT, SAE_MYSQL_USER, SAE_MYSQL_PASS, SAE_MYSQL_DB) or die_db_link();
+    $conn = db_connect();
     $result = mysqli_query($conn, "select * from futures where id=$id") or die_db_error($conn);
     $old_contract = mysqli_fetch_assoc($result);
     $old_code = $old_contract["code"];

@@ -3,6 +3,7 @@
 namespace position_futures;
 
 require_once dirname(__FILE__) . "/../global.php";
+require_once dirname(__FILE__) . "/../sae.php";
 
 echo get_json_result(do_open());
 
@@ -23,7 +24,7 @@ function do_open() {
         return array("status" => "error", "message" => "交易手数需>0");
     }
     // 先看是否存在此持仓
-    $conn = @mysqli_connect(SAE_MYSQL_HOST_M . ":" . SAE_MYSQL_PORT, SAE_MYSQL_USER, SAE_MYSQL_PASS, SAE_MYSQL_DB) or die_db_link();
+    $conn = db_connect();
     $ret = exist($contract, $direct, $account, $conn);
     if ($ret["status"] == "error") {
         return $ret;
@@ -60,7 +61,7 @@ function do_open() {
 }
 
 function exist($contract, $direct, $account, $conn) {
-    $result = mysqli_query($conn, "select * from v_position_futures where contract='$contract' and direct='$direct' and account='$account'")
+    $result = mysqli_query($conn, "select * from " . v_position_futures . " where contract='$contract' and direct='$direct' and account='$account'")
             or die_db_error($conn);
     $ids = array();
     foreach ($result as $row) {
