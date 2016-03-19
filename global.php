@@ -10,6 +10,13 @@ define('SAE_MYSQL_PASS', '801111');
 define('SAE_MYSQL_PORT', '3303');
 define('SAE_MYSQL_DB', 'goleek_sae_php_test');
 
+// 输入口令方可访问
+$pass = get_param_from_request("pass");
+if ($pass !== "本宝宝") {
+    die("你无权限访问");
+}
+unset($_POST["pass"]);
+
 function get_json_result($arr) {
     if ($arr === null || !is_array($arr)) {
         return '[{"status":"ok","message":"ok"}]';
