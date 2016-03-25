@@ -1,6 +1,7 @@
 <?php
 
 /**
+ * 版本 master
  * 定义全局变量和属性
  */
 define('HOST', 'localhost');
@@ -34,6 +35,11 @@ function request_params_exist($param_names) {
         if (!array_key_exists($name, $_POST) || $_POST[$name] === null) {
             return false;
         }
+        
+        // 也可以用下面的
+//        if(!isset($_POST[$name])){
+//            return false;
+//        }
     }
     return true;
 }
